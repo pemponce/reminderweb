@@ -1,25 +1,22 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
-
-// Создание экземпляра axios с базовыми настройками
-const apiClient = axios.create({
-    baseURL: API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
+// Функция для получения токена из локального хранилища
 export const getAuthToken = () => {
-    return window.localStorage.getItem('auth_token');
+    return window.localStorage.getItem('token');  // Берём токен из localStorage
 };
 
-// Установка токена в заголовки запросов
-apiClient.interceptors.request.use(
+// Создание экземпляра axios (замени на свой, если у тебя другой экземпляр)
+const reminderApi = axios.create({
+    baseURL: 'http://localhost:8080/api',
+    timeout: 10000, // Настрой таймаут по необходимости
+});
+
+// Установка интерцептора для добавления токена в заголовки всех запросов
+reminderApi.interceptors.request.use(
     (config) => {
-        const token = getAuthToken();
+        const token = getAuthToken(); // Берём токен из localStorage
         if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers['Authorization'] = `Bearer ${token}`; // Добавляем токен в заголовок Authorization
         }
         return config;
     },
@@ -29,9 +26,9 @@ apiClient.interceptors.request.use(
 );
 
 // Регистрация
-export const register = async (registerData) => {
+export const register = async (username, email, password, role) => {
     try {
-        const response = await apiClient.post('/auth/register', registerData);
+        const response = await reminderApi.post('/auth/registration', { username, email, password, role });
         return response.data;
     } catch (error) {
         throw error;
@@ -39,9 +36,9 @@ export const register = async (registerData) => {
 };
 
 // Вход
-export const login = async (loginData) => {
+export const login = async (username, password) => {
     try {
-        const response = await apiClient.post('/auth/login', loginData);
+        const response = await reminderApi.post('/auth/login', { username, password });
         const { token } = response.data;
 
         if (token) {
@@ -59,124 +56,175 @@ export const logout = () => {
     localStorage.removeItem('auth_token');
 };
 
-// Поиск пользователей
-export const getUserSearch = async (query) => {
-    try {
-        const response = await apiClient.get('/user/search', {
-            params: { text: query }
-        });
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
-};
-
 // Добавление друга
-export const addFriend = async (friendUrlId) => {
+export const addFriend = async (friendId) => {
     try {
-        const response = await apiClient.post('/user/add_friend', null, {
-            params: { friendUrlId }
-        });
+        const response = await reminderApi.post(`/friend/add/${friendId}`);
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-// Удаление друга
-export const removeFriend = async (friendUrlId) => {
+// Получение ваших запросов в друзья
+export const getYourFriendRequests = async () => {
     try {
-        const response = await apiClient.post('/user/remove_friend', null, {
-            params: { friendUrlId }
-        });
+        const response = await reminderApi.get('/friend/yours_requests');
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-// Список друзей
-export const friendsList = async (userId) => {
+// Получение запросов в друзья, отправленных вам
+export const getFriendRequestsToYou = async () => {
     try {
-        const response = await apiClient.get('/user/friends', {
-            params: { userId }
-        });
+        const response = await reminderApi.get('/friend/requests_to_you');
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-export const fetchChatList = async () => {
+// Принятие запроса в друзья
+export const acceptFriendRequest = async (friendId, response) => {
     try {
-        const response = await apiClient.get(`/chat`);
-        return response.data;
+        const apiResponse = await reminderApi.post(`/friend/accept/${friendId}`, { response });
+        return apiResponse.data;
     } catch (error) {
-        console.error('Error fetching chat list:', error);
         throw error;
     }
 };
 
-export const fetchChat = async (chatId) => {
+// Создание проекта
+export const createProject = async (projectName, userId, tags) => {
     try {
-        const response = await axios.get(`${API_URL}/chat/${chatId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching chat:', error);
-        throw error;
-    }
-};
-
-// Получение информации о пользователе
-export const getUserDetails = async () => {
-    try {
-        const response = await apiClient.get('/account/me');
+        const projectDto = { projectName, userId, tags };
+        const response = await reminderApi.post('/project/create', projectDto);
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-// Получение сообщений чата
-export const fetchMessages = async (chatId) => {
+// Получение задач проекта
+export const getProjectTasks = async (projectId) => {
     try {
-        const response = await apiClient.get(`/chat/${chatId}/messages`);
+        const response = await reminderApi.get(`/project/${projectId}`);
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-// Отправка сообщения
-export const sendMessage = async (chatId, content) => {
+// Добавление пользователя в проект
+export const addUserToProject = async (projectId, userId) => {
     try {
-        const response = await apiClient.post('/chat/send-message', { chatId, content });
+        const response = await reminderApi.post(`/project/${projectId}/add_user/${userId}`);
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-// Создание чата
-export const createChat = async (friendId) => {
+// Изменение роли пользователя в проекте
+export const editUserRole = async (projectId, userId, projectRole) => {
     try {
-        const response = await apiClient.post('/chat/create', null, {
-            params: { friendId }
-        });
+        const response = await reminderApi.post(`/project/${projectId}/edit_user_role/${userId}`, { projectRole });
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-// Получение чатов пользователя
-export const fetchUserChats = async () => {
+// Поиск задач по статусу
+export const searchTaskByStatus = async (status) => {
     try {
-        const response = await apiClient.get('/chat/user-chats');
+        const response = await reminderApi.get('/search/findTaskByStatus', { params: { status } });
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-export default apiClient;
+// Поиск задач по заголовку
+export const searchTaskByTitle = async (title) => {
+    try {
+        const response = await reminderApi.get('/search/findTaskByTitle', { params: { title } });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getUserProjects = async () => {
+    try{
+        const response = await reminderApi.get('/project');
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+}
+
+// Получение тегов проекта
+export const getProjectTags = async (projectId) => {
+    try {
+        const response = await reminderApi.get(`/tag/${projectId}/project_tags`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+// Получение ID тегов проекта
+export const getProjectTagsId = async (projectId) => {
+    try {
+        const response = await reminderApi.get(`/tag/${projectId}/project_tags_id`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Создание задачи
+export const createTask = async (taskDto, projectId) => {
+    try {
+        // Теперь мы передаем projectId в запрос
+        const response = await reminderApi.post(`/${projectId}/task/create`, taskDto);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+// Обновление задачи
+export const updateTask = async (taskId, taskDto) => {
+    try {
+        const response = await reminderApi.put(`/task/update/${taskId}`, taskDto);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Удаление задачи
+export const deleteTask = async (taskId) => {
+    try {
+        const response = await reminderApi.delete(`/task/delete/${taskId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Получение информации о пользователе по имени
+export const getUserByUsername = async (username) => {
+    try {
+        const response = await reminderApi.get(`/user/${username}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export default reminderApi;
