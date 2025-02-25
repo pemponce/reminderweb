@@ -5,26 +5,25 @@ function CreateTask({ projectId, authorName }) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [status, setStatus] = useState('TODO');
-    const [tagIds, setTagIds] = useState([]);
+    const [tagIds, setTagIds] = useState([]);  // Пустой массив для начального состояния
     const [deadline, setDeadline] = useState('');
     const [author, setAuthor] = useState('');
     const [availableTags, setAvailableTags] = useState([]);
 
     useEffect(() => {
-        // Устанавливаем имя автора, которое получаем из пропсов
         setAuthor(authorName);
 
-        // Проверяем, что projectId не равен undefined
         if (!projectId) {
             console.error("projectId не передан или равен undefined");
             return;
         }
 
-        // Загружаем доступные теги для проекта
         const fetchTags = async () => {
             try {
                 const tags = await getProjectTags(projectId);
                 setAvailableTags(tags);
+                // Инициализируем состояние tagIds, предполагая, что каждый тег будет иметь чекбокс
+                setTagIds(new Array(tags.length).fill(false));
             } catch (error) {
                 console.error('Ошибка загрузки тегов:', error);
             }
@@ -36,32 +35,35 @@ function CreateTask({ projectId, authorName }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Проверяем, что projectId не равен undefined
         if (!projectId) {
             alert("Ошибка: projectId не передан или равен undefined");
             return;
         }
 
-        // Фильтруем tagIds, чтобы удалить null
-        const filteredTagIds = tagIds.filter(id => id != null);
+        // Фильтрация тегов, чтобы убедиться, что передаются только валидные id
+        const filteredTagIds = tagIds
+            .map((checked, index) => checked ? availableTags[index].id : null)
+            .filter(id => id !== null);  // Получаем только выбранные теги
+
+        if (filteredTagIds.length === 0) {
+            alert("Выберите хотя бы один тег.");
+            return;
+        }
 
         try {
-            // Передаем projectId при создании задачи
             const taskDto = { title, content, author, tagIds: filteredTagIds, status, deadline };
-            await createTask(taskDto, projectId);  // Передаем taskDto и projectId в API
+            await createTask(taskDto, projectId);
             alert('Задача создана!');
         } catch (error) {
             alert('Ошибка создания задачи: ' + error.message);
         }
     };
 
-    const handleTagChange = (tagId) => {
-        // Добавляем или удаляем тег из списка выбранных
-        if (tagIds.includes(tagId)) {
-            setTagIds(tagIds.filter(id => id !== tagId));
-        } else {
-            setTagIds([...tagIds, tagId]);
-        }
+
+    const handleCheckboxChange = (index) => {
+        const updatedCheckedItems = [...tagIds];
+        updatedCheckedItems[index] = !updatedCheckedItems[index];
+        setTagIds(updatedCheckedItems);
     };
 
     return (
@@ -85,25 +87,22 @@ function CreateTask({ projectId, authorName }) {
                     <option value="DONE">DONE</option>
                 </select>
 
-                {/* Выбор тегов */}
                 <div>
                     <h4>Выберите теги:</h4>
-                    {availableTags.map(tag => (
+                    {availableTags.map((tag, index) => (
                         <div key={tag.id}>
                             <label>
                                 <input
                                     type="checkbox"
-                                    value={tag.id}
-                                    checked={tagIds.includes(tag.id)}
-                                    onChange={() => handleTagChange(tag.id)}
+                                    checked={tagIds[index]}
+                                    onChange={() => handleCheckboxChange(index)}
                                 />
-                                {tag.tagName} ({tag.tagColor})
+                                {tag.tagName} {tag.tagColor}  {/* Предположим, что каждый тег имеет имя */}
                             </label>
                         </div>
                     ))}
                 </div>
 
-                {/* Дедлайн */}
                 <input
                     type="datetime-local"
                     value={deadline}
