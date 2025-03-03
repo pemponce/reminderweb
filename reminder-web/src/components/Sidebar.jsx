@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Home, Calendar, List, BarChart, Settings, Plus, Folder } from "lucide-react";
 import {getUserProjects} from "../Api/ReminderApi";
 
@@ -53,6 +53,8 @@ export default function TaskBoard() {
                             />
                         ))}
                     </nav>
+                    <Link to="/project/create">Создать проект</Link>
+
                 </div>
             </div>
         </div>
