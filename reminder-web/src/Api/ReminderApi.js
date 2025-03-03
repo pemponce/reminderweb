@@ -107,6 +107,15 @@ export const createProject = async (projectName, userId, tags) => {
     }
 };
 
+export const getProject = async (projectId) => {
+    try {
+        const response = await reminderApi.get(`/project/getProject/${projectId}`);
+        return response.data
+    } catch (error) {
+        throw error;
+    }
+}
+
 // Получение задач проекта
 export const getProjectTasks = async (projectId) => {
     try {

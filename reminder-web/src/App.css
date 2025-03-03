@@ -63,3 +63,45 @@ body {
 .app.dark .sidebar button {
   background-color: #555;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.header .logo {
+  font-size: 24px;
+}
+
+.header .auth-links a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: white;
+}
+
+.header .auth-links button {
+  margin-left: 15px;
+  background-color: #555;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.header .auth-links button:hover {
+  background-color: #777;
+}
+
+body {
+  padding-top: 60px; /* Отступ, чтобы контент не перекрывался хедером */
+}
+

@@ -54,9 +54,9 @@ function CreateTask({ projectId, authorName }) {
                 // Если чекбокс выбран, возвращаем id тега
                 if (checked && availableTags[index]) {
                     const tag = availableTags[index];
-                    console.log(`Тег выбран: ${tag}`);
-                    console.log(`Тег выбран: ${availableTags[index].tagName}, ID: ${availableTags[index].id}`);
-                    return availableTags[index].id; // Возвращаем id выбранного тега
+                    console.log(`Тег выбран: ${tag.tagName}`);
+                    console.log(`Тег выбран: ${tag.tagName}, ID: ${tag.id}`);
+                    return tag.id; // Возвращаем id выбранного тега
                 }
                 return null; // Возвращаем null, если тег не выбран
             })

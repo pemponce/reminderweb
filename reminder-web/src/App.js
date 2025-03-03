@@ -6,6 +6,7 @@ import ProjectList from './components/project/ProjectList';
 import ProjectPage from './components/project/ProjectPage';
 import CreateProject from './components/project/CreateProject';
 import Sidebar from './components/Sidebar';
+import Header from './components/Header';  // Импортируем Header
 import { login } from './Api/ReminderApi';
 import './App.css';
 
@@ -42,7 +43,12 @@ function App() {
     return (
         <div className={`app ${theme}`}>
             <Router>
+                {/* Хедер всегда виден сверху */}
+                <Header onLogout={handleLogout} />
+
+                {/* Сайдбар только если пользователь авторизован */}
                 {isAuthenticated && <Sidebar onLogout={handleLogout} toggleTheme={toggleTheme} />}
+
                 <Routes>
                     <Route path="/login" element={<Login onLogin={handleLogin} />} />
                     <Route path="/register" element={<Register />} />
