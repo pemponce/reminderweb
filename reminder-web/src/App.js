@@ -50,27 +50,22 @@ function App() {
     }, [theme]);
 
     return (
-        <div className={`app ${theme}`}>
+        <div className={`app-container ${theme}`}>
             <Router>
                 <Header onLogout={handleLogout} toggleTheme={toggleTheme} />
-                {isAuthenticated && <Sidebar onLogout={handleLogout} toggleTheme={toggleTheme} />}
-                <Routes>
-                    <Route path="/login" element={isAuthenticated ? <ProjectList/> : <Login onLogin={handleLogin} />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route
-                        path="/projects"
-                        element={isAuthenticated ? <ProjectList /> : <Navigate to="/login" />}
-                    />
-                    <Route
-                        path="/project/:projectId"
-                        element={isAuthenticated ? <ProjectPage /> : <Navigate to="/login" />}
-                    />
-                    <Route
-                        path="/project/create"
-                        element={isAuthenticated ? <CreateProject /> : <Navigate to="/login" />}
-                    />
-                    <Route path="/" element={<Navigate to="/projects" />} />
-                </Routes>
+                <div className="main-wrapper">
+                    {isAuthenticated && <Sidebar onLogout={handleLogout} toggleTheme={toggleTheme} />}
+                    <div className="content-wrapper">
+                        <Routes>
+                            <Route path="/login" element={isAuthenticated ? <Navigate to="/projects" /> : <Login onLogin={handleLogin} />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/projects" element={isAuthenticated ? <ProjectList /> : <Navigate to="/login" />} />
+                            <Route path="/project/:projectId" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/login" />} />
+                            <Route path="/project/create" element={isAuthenticated ? <CreateProject /> : <Navigate to="/login" />} />
+                            <Route path="/" element={<Navigate to="/projects" />} />
+                        </Routes>
+                    </div>
+                </div>
             </Router>
         </div>
     );

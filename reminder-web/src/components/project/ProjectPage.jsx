@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import TaskList from '../task/TaskList';
 import CreateTask from '../task/CreateTask';
 import { getProject, getProjectTasks } from '../../Api/ReminderApi';
-import '../../App.css'; // Импортируем стили
+import '../../App.css';
 
 function ProjectPage() {
     const { projectId } = useParams();
-    const [tasks, setTasks] = useState([]); // tasks всегда массив
+    const [tasks, setTasks] = useState([]);
     const [project, setProject] = useState('');
 
     useEffect(() => {
@@ -15,8 +15,8 @@ function ProjectPage() {
             try {
                 const tasksData = await getProjectTasks(projectId);
                 const projectData = await getProject(projectId);
-                setTasks(tasksData || []); // Если tasksData пустое или null, то присваиваем пустой массив
-                setProject(projectData.projectName); // Сохраняем название проекта
+                setTasks(tasksData || []);
+                setProject(projectData.projectName);
             } catch (error) {
                 console.error('Ошибка загрузки задач:', error);
             }
@@ -24,7 +24,6 @@ function ProjectPage() {
         fetchTasks();
     }, [projectId]);
 
-    // Разделяем задачи по статусам. Теперь tasks всегда массив.
     const tasksByStatus = {
         'TODO': (tasks || []).filter(task => task.status === 'TODO'),
         'IN_PROCESS': (tasks || []).filter(task => task.status === 'IN_PROCESS'),
@@ -33,20 +32,19 @@ function ProjectPage() {
     };
 
     return (
-        <div className="project-page">
+        <div className="app-container">
+
+        <div className="project-page-container">
             <h1>Проект {project}</h1>
             <h2>Задачи</h2>
 
-
-            {/* Отображаем задачи по колонкам статусов */}
-            <div className="tasks-container">
-                {/* Колонка для задач со статусом TODO */}
-                <div className="task-column">
+            <div className="tasks-grid">
+                <div className="task-column-container">
                     <h3>Запланировано ({tasksByStatus['TODO'].length})</h3>
                     {tasksByStatus['TODO'].length > 0 ? (
                         tasksByStatus['TODO'].map((task) => (
-                            <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]} pid={[projectId]}/> {/* Передаем массив с одной задачей */}
+                            <div key={task.id} className="task-card-container">
+                                <TaskList tasks={[task]} pid={[projectId]} />
                             </div>
                         ))
                     ) : (
@@ -54,13 +52,12 @@ function ProjectPage() {
                     )}
                 </div>
 
-                {/* Колонка для задач со статусом IN_PROCESS */}
-                <div className="task-column">
+                <div className="task-column-container">
                     <h3>В работе ({tasksByStatus['IN_PROCESS'].length})</h3>
                     {tasksByStatus['IN_PROCESS'].length > 0 ? (
                         tasksByStatus['IN_PROCESS'].map((task) => (
-                            <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]} pid={[projectId]}/> {/* Передаем массив с одной задачей */}
+                            <div key={task.id} className="task-card-container">
+                                <TaskList tasks={[task]} pid={[projectId]} />
                             </div>
                         ))
                     ) : (
@@ -68,13 +65,12 @@ function ProjectPage() {
                     )}
                 </div>
 
-                {/* Колонка для задач со статусом DONE */}
-                <div className="task-column">
+                <div className="task-column-container">
                     <h3>Завершено ({tasksByStatus['DONE'].length})</h3>
                     {tasksByStatus['DONE'].length > 0 ? (
                         tasksByStatus['DONE'].map((task) => (
-                            <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]} pid={[projectId]}/> {/* Передаем массив с одной задачей */}
+                            <div key={task.id} className="task-card-container">
+                                <TaskList tasks={[task]} pid={[projectId]} />
                             </div>
                         ))
                     ) : (
@@ -82,13 +78,12 @@ function ProjectPage() {
                     )}
                 </div>
 
-                {/* Колонка для задач со статусом TIME_IS_OVER */}
-                <div className="task-column">
+                <div className="task-column-container">
                     <h3>Время вышло ({tasksByStatus['TIME_IS_OVER'].length})</h3>
                     {tasksByStatus['TIME_IS_OVER'].length > 0 ? (
                         tasksByStatus['TIME_IS_OVER'].map((task) => (
-                            <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]} pid={[projectId]}/>
+                            <div key={task.id} className="task-card-container">
+                                <TaskList tasks={[task]} pid={[projectId]} />
                             </div>
                         ))
                     ) : (
@@ -97,8 +92,8 @@ function ProjectPage() {
                 </div>
             </div>
 
-            {/* Форма для создания задачи */}
-            <CreateTask projectId={projectId}/>
+            <CreateTask projectId={projectId} />
+        </div>
         </div>
     );
 }

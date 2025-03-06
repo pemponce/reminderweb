@@ -10,29 +10,31 @@ function Login({ onLogin }) {
         e.preventDefault();
         try {
             await onLogin(username, password);
-            navigate('/projects'); // Переход на страницу проектов после входа
+            navigate('/projects');
         } catch (error) {
             console.error('Ошибка входа:', error);
         }
     };
 
     return (
-        <div>
+        <div className="auth-container">
             <h2>Вход</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="auth-form">
                 <input
                     type="text"
                     placeholder="Имя пользователя"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    className="auth-input"
                 />
                 <input
                     type="password"
                     placeholder="Пароль"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="auth-input"
                 />
-                <button type="submit">Войти</button>
+                <button type="submit" className="auth-button">Войти</button>
             </form>
         </div>
     );

@@ -25,10 +25,10 @@ function TaskList({ tasks, pid }) {
     }, [tasks, pid]);
 
     return (
-        <div>
-            <ul>
+        <div className="task-list-container">
+            <ul className="task-list">
                 {tasks.map((task) => (
-                    <li key={task.id}>
+                    <li key={task.id} className="task-item">
                         <h3>{task.title || "Без названия"}</h3>
                         <p>Описание: {task.content || "Нет описания"}</p>
                         <p>Статус: {task.status || "Не указан"}</p>
@@ -44,6 +44,7 @@ function TaskList({ tasks, pid }) {
                                         color: '#fff',
                                         borderRadius: '4px'
                                     }}
+                                    className="task-tag"
                                 >
                                     {tag.tagName}
                                 </span>

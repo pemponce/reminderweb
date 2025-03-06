@@ -11,37 +11,40 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await register(username, email, password, 'USER'); // Роль по умолчанию
+            await register(username, email, password, 'USER');
             alert('Регистрация прошла успешно!');
-            navigate('/projects'); // Переход на страницу проектов после регистрации
+            navigate('/projects');
         } catch (error) {
             alert('Ошибка регистрации: ' + error.message);
         }
     };
 
     return (
-        <div>
+        <div className="auth-container">
             <h2>Регистрация</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="auth-form">
                 <input
                     type="text"
                     placeholder="Имя пользователя"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    className="auth-input"
                 />
                 <input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="auth-input"
                 />
                 <input
                     type="password"
                     placeholder="Пароль"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="auth-input"
                 />
-                <button type="submit">Зарегистрироваться</button>
+                <button type="submit" className="auth-button">Зарегистрироваться</button>
             </form>
         </div>
     );

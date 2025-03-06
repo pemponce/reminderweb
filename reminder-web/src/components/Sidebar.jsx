@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Home, Calendar, List, BarChart, Settings, Plus, Folder } from "lucide-react";
-import {getUserProjects} from "../Api/ReminderApi";
-
-
-import { Link } from "react-router-dom"; // Импортируем компонент Link
+import { getUserProjects } from "../Api/ReminderApi";
+import { Link } from "react-router-dom";
 
 export default function TaskBoard() {
     const [projects, setProjects] = useState([]);
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const projects = await getUserProjects(); // Получаем проекты пользователя
+                const projects = await getUserProjects();
                 setProjects(projects);
             } catch (error) {
                 console.error('Ошибка загрузки проектов:', error);
@@ -22,11 +20,11 @@ export default function TaskBoard() {
     const [selectedProject, setSelectedProject] = useState();
 
     return (
-        <div className="flex h-screen bg-gray-900 text-white">
+        <div className="app-container">
             {/* Sidebar */}
-            <div className="w-64 bg-gray-800 p-4 flex flex-col justify-between">
+            <div className="sidebar-container">
                 <div>
-                    <h2 className="text-xl font-bold mb-4">Tasking</h2>
+                    <h2 className="header-logo">Tasking</h2>
                     <nav className="space-y-2">
                         <SidebarItem icon={<Home size={20} />} text="Доска" />
                         <SidebarItem icon={<Calendar size={20} />} text="Календарь" />
@@ -44,7 +42,7 @@ export default function TaskBoard() {
                                 key={project.id}
                                 icon={<Folder size={20} />}
                                 text={
-                                    <Link to={`/project/${project.id}`} className="text-white hover:text-gray-400">
+                                    <Link to={`/project/${project.id}`} className="nav-link-text">
                                         {project.projectName}
                                     </Link>
                                 }
@@ -54,7 +52,6 @@ export default function TaskBoard() {
                         ))}
                     </nav>
                     <Link to="/project/create">Создать проект</Link>
-
                 </div>
             </div>
         </div>

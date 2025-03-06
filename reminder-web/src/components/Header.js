@@ -4,16 +4,15 @@ import '../App.css';
 
 const Header = ({ onLogout, toggleTheme }) => {
     return (
-        <header className="header">
-            <div className="logo">
-                <Link to="/projects">Проекты</Link>
+        <header className="header-container">
+            <div className="header-logo">
+                <Link to="/projects" className="header-link">Проекты</Link>
             </div>
-            <div className="auth-links">
-                <Link to="/login">Войти</Link>
-                <Link to="/register">Зарегистрироваться</Link>
-                {onLogout && <button onClick={onLogout}>Выйти</button>}
-                <button onClick={toggleTheme}>Сменить тему</button>
-
+            <div className="header-auth-links">
+                <Link to="/login" className="header-link">Войти</Link>
+                <Link to="/register" className="header-link">Зарегистрироваться</Link>
+                {onLogout && <button onClick={onLogout} className="header-button">Выйти</button>}
+                <button onClick={toggleTheme} className="header-button">Сменить тему</button>
             </div>
         </header>
     );

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getUserProjects } from '../../Api/ReminderApi'; // Создаем метод для получения проектов
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserProjects } from '../../Api/ReminderApi';
 
 function ProjectList({ onLogout }) {
     const [projects, setProjects] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const projects = await getUserProjects(); // Получаем проекты пользователя
+                const projects = await getUserProjects();
                 setProjects(projects);
             } catch (error) {
                 console.error('Ошибка загрузки проектов:', error);
@@ -18,14 +19,14 @@ function ProjectList({ onLogout }) {
     }, []);
 
     return (
-        <div>
-            <h1>Мои проекты</h1>
-            <button onClick={onLogout}>Выйти</button>
-            <Link to="/project/create">Создать проект</Link>
-            <ul>
+        <div className="project-container">
+            <h1 className="page-title">Мои проекты</h1>
+            <button onClick={onLogout} className="button logout">Выйти</button>
+            <button onClick={() => navigate('/project/create')} className="button create">Создать проект</button>
+            <ul className="project-list">
                 {projects.map((project) => (
-                    <li key={project.id}>
-                        <Link to={`/project/${project.id}`}>{project.projectName}</Link>
+                    <li key={project.id} className="project-item">
+                        <Link to={`/project/${project.id}`} className="project-link">{project.projectName}</Link>
                     </li>
                 ))}
             </ul>
