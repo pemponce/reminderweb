@@ -6,7 +6,7 @@ import ProjectList from './components/project/ProjectList';
 import ProjectPage from './components/project/ProjectPage';
 import CreateProject from './components/project/CreateProject';
 import Sidebar from './components/Sidebar';
-import Header from './components/Header';  // Импортируем Header
+import Header from './components/Header';
 import { login } from './Api/ReminderApi';
 import './App.css';
 
@@ -19,6 +19,8 @@ function App() {
         if (token) {
             setIsAuthenticated(true);
         }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
     }, []);
 
     const handleLogin = async (username, password) => {
@@ -37,20 +39,23 @@ function App() {
     };
 
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
     };
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
 
     return (
         <div className={`app ${theme}`}>
             <Router>
-                {/* Хедер всегда виден сверху */}
-                <Header onLogout={handleLogout} />
-
-                {/* Сайдбар только если пользователь авторизован */}
+                <Header onLogout={handleLogout} toggleTheme={toggleTheme} />
                 {isAuthenticated && <Sidebar onLogout={handleLogout} toggleTheme={toggleTheme} />}
-
                 <Routes>
-                    <Route path="/login" element={<Login onLogin={handleLogin} />} />
+                    <Route path="/login" element={isAuthenticated ? <ProjectList/> : <Login onLogin={handleLogin} />} />
                     <Route path="/register" element={<Register />} />
                     <Route
                         path="/projects"

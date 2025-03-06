@@ -216,6 +216,18 @@ export const updateTask = async (taskId, taskDto) => {
     }
 };
 
+export const getTaskTags = async (projectId, taskId) => {
+    try {
+        const response = await reminderApi.get(`${projectId}/task/${taskId}/tags`);
+        return response.data;  // Это будет массив объектов тегов
+    } catch (error) {
+        console.error("Ошибка при получении тегов задачи", error);
+        throw error;
+    }
+};
+
+
+
 // Удаление задачи
 export const deleteTask = async (taskId) => {
     try {

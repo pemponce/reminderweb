@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createTask, getProjectTags } from '../../Api/ReminderApi';
+import { useLocation } from 'react-router-dom';
+
 
 function CreateTask({ projectId, authorName }) {
     const [title, setTitle] = useState('');
@@ -12,6 +14,7 @@ function CreateTask({ projectId, authorName }) {
     let [tags, setTags] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
+    const location = useLocation()
 
     useEffect(() => {
         setAuthor(authorName);
@@ -69,10 +72,15 @@ function CreateTask({ projectId, authorName }) {
             alert("Выберите хотя бы один тег.");
             return;
         }
+        if (deadline == null || deadline === '' || deadline === "") {
+            alert("Выберите дату дедлайна")
+            return;
+        }
 
         try {
             const taskDto = { title, content, author, tagIds: filteredTagIds, status, deadline };
             await createTask(taskDto, projectId);
+            window.location.reload()
             alert('Задача создана!');
         } catch (error) {
             alert('Ошибка создания задачи: ' + error.message);

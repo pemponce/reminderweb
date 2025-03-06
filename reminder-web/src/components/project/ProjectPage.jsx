@@ -17,7 +17,6 @@ function ProjectPage() {
                 const projectData = await getProject(projectId);
                 setTasks(tasksData || []); // Если tasksData пустое или null, то присваиваем пустой массив
                 setProject(projectData.projectName); // Сохраняем название проекта
-                console.log('Tasks:', tasksData);  // Логируем задачи
             } catch (error) {
                 console.error('Ошибка загрузки задач:', error);
             }
@@ -33,8 +32,6 @@ function ProjectPage() {
         'TIME_IS_OVER': (tasks || []).filter(task => task.status === 'TIME_IS_OVER'),
     };
 
-    console.log('Tasks by Status:', tasksByStatus); // Логируем задачи по статусам
-
     return (
         <div className="project-page">
             <h1>Проект {project}</h1>
@@ -49,7 +46,7 @@ function ProjectPage() {
                     {tasksByStatus['TODO'].length > 0 ? (
                         tasksByStatus['TODO'].map((task) => (
                             <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]}/> {/* Передаем массив с одной задачей */}
+                                <TaskList tasks={[task]} pid={[projectId]}/> {/* Передаем массив с одной задачей */}
                             </div>
                         ))
                     ) : (
@@ -63,7 +60,7 @@ function ProjectPage() {
                     {tasksByStatus['IN_PROCESS'].length > 0 ? (
                         tasksByStatus['IN_PROCESS'].map((task) => (
                             <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]}/> {/* Передаем массив с одной задачей */}
+                                <TaskList tasks={[task]} pid={[projectId]}/> {/* Передаем массив с одной задачей */}
                             </div>
                         ))
                     ) : (
@@ -77,7 +74,7 @@ function ProjectPage() {
                     {tasksByStatus['DONE'].length > 0 ? (
                         tasksByStatus['DONE'].map((task) => (
                             <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]}/> {/* Передаем массив с одной задачей */}
+                                <TaskList tasks={[task]} pid={[projectId]}/> {/* Передаем массив с одной задачей */}
                             </div>
                         ))
                     ) : (
@@ -87,11 +84,11 @@ function ProjectPage() {
 
                 {/* Колонка для задач со статусом TIME_IS_OVER */}
                 <div className="task-column">
-                    <h3>На паузе ({tasksByStatus['TIME_IS_OVER'].length})</h3>
+                    <h3>Время вышло ({tasksByStatus['TIME_IS_OVER'].length})</h3>
                     {tasksByStatus['TIME_IS_OVER'].length > 0 ? (
                         tasksByStatus['TIME_IS_OVER'].map((task) => (
                             <div key={task.id} className="task-card">
-                                <TaskList tasks={[task]}/> {/* Передаем массив с одной задачей */}
+                                <TaskList tasks={[task]} pid={[projectId]}/>
                             </div>
                         ))
                     ) : (

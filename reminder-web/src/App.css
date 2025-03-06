@@ -2,18 +2,23 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background-color: #1e1e1e; /* Темный фон для всего приложения */
+  color: #ffffff; /* Белый текст по умолчанию */
 }
 
 .app {
   display: flex;
   min-height: 100vh;
+  background-color: #1e1e1e; /* Темный фон для контейнера приложения */
 }
 
 .sidebar {
   width: 200px;
-  background-color: #f4f4f4;
+  background-color: #2d2d2d; /* Темный фон для сайдбара */
   padding: 20px;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid #444; /* Темная граница */
+  border-radius: 12px; /* Закругленные углы */
+  margin: 10px; /* Отступы */
 }
 
 .sidebar nav ul {
@@ -27,7 +32,7 @@ body {
 
 .sidebar nav ul li a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff; /* Белый текст для ссылок */
 }
 
 .sidebar button {
@@ -37,31 +42,26 @@ body {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 8px; /* Закругленные углы */
 }
 
-/* Светлая тема */
-.app.light {
-  background-color: #fff;
-  color: #333;
-}
-
-/* Темная тема */
+/* Темная тема для всего приложения */
 .app.dark {
-  background-color: #333;
-  color: #fff;
+  background-color: #1e1e1e;
+  color: #ffffff;
 }
 
 .app.dark .sidebar {
-  background-color: #222;
+  background-color: #2d2d2d;
   border-right: 1px solid #444;
 }
 
 .app.dark .sidebar nav ul li a {
-  color: #fff;
+  color: #ffffff;
 }
 
 .app.dark .sidebar button {
-  background-color: #555;
+  background-color: #007bff;
 }
 
 .header {
@@ -69,13 +69,15 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #333; /* Темный фон для хедера */
   color: white;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
+  border-radius: 12px; /* Закругленные углы */
+  margin: 10px; /* Отступы */
 }
 
 .header .logo {
@@ -95,6 +97,7 @@ body {
   color: white;
   padding: 8px 16px;
   cursor: pointer;
+  border-radius: 8px; /* Закругленные углы */
 }
 
 .header .auth-links button:hover {
@@ -110,6 +113,9 @@ body {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: #2d2d2d; /* Темный фон для страницы проекта */
+  border-radius: 12px; /* Закругленные углы */
+  margin: 10px; /* Отступы */
 }
 
 .tasks-container {
@@ -121,40 +127,40 @@ body {
 
 .task-column {
   flex: 1;
-  background-color: #f9f9f9;
+  background-color: #3d3d3d; /* Темный фон для колонок задач */
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 12px; /* Закругленные углы */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .task-column h3 {
   font-size: 18px;
-  color: #333;
+  color: #ffffff; /* Белый текст для заголовков */
   margin-bottom: 15px;
 }
 
 .task-card {
-  background-color: white;
+  background-color: #4d4d4d; /* Темный фон для карточек задач */
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 12px; /* Закругленные углы */
   margin-bottom: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .task-card h3 {
   font-size: 16px;
-  color: #444;
+  color: #ffffff; /* Белый текст для заголовков задач */
   margin: 0;
 }
 
 .task-card p {
   font-size: 14px;
-  color: #666;
+  color: #cccccc; /* Светло-серый текст для описания задач */
   margin: 5px 0;
 }
 
 .task-card .task-status {
   font-size: 12px;
-  color: #888;
+  color: #aaaaaa; /* Серый текст для статуса задач */
   margin-top: 5px;
 }
