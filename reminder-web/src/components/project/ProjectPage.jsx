@@ -25,75 +25,45 @@ function ProjectPage() {
     }, [projectId]);
 
     const tasksByStatus = {
-        'TODO': (tasks || []).filter(task => task.status === 'TODO'),
-        'IN_PROCESS': (tasks || []).filter(task => task.status === 'IN_PROCESS'),
-        'DONE': (tasks || []).filter(task => task.status === 'DONE'),
-        'TIME_IS_OVER': (tasks || []).filter(task => task.status === 'TIME_IS_OVER'),
+        TODO: tasks.filter(task => task.status === 'TODO'),
+        IN_PROCESS: tasks.filter(task => task.status === 'IN_PROCESS'),
+        DONE: tasks.filter(task => task.status === 'DONE'),
+        TIME_IS_OVER: tasks.filter(task => task.status === 'TIME_IS_OVER'),
+    };
+
+    const renderTaskColumn = (status, label) => {
+        const taskList = tasksByStatus[status];
+        return (
+            <div className="task-column-container">
+                <h3>{label} ({taskList.length})</h3>
+                {taskList.length > 0 ? (
+                    taskList.map((task) => (
+                        <div key={task.id} className="task-card-container">
+                            <TaskList tasks={[task]} pid={[projectId]} />
+                        </div>
+                    ))
+                ) : (
+                    <p>Нет задач в этой категории</p>
+                )}
+            </div>
+        );
     };
 
     return (
         <div className="app-container">
+            <div className="project-page-container">
+                <h1>Проект: {project}</h1>
+                <h2>Задачи</h2>
 
-        <div className="project-page-container">
-            <h1>Проект {project}</h1>
-            <h2>Задачи</h2>
-
-            <div className="tasks-grid">
-                <div className="task-column-container">
-                    <h3>Запланировано ({tasksByStatus['TODO'].length})</h3>
-                    {tasksByStatus['TODO'].length > 0 ? (
-                        tasksByStatus['TODO'].map((task) => (
-                            <div key={task.id} className="task-card-container">
-                                <TaskList tasks={[task]} pid={[projectId]} />
-                            </div>
-                        ))
-                    ) : (
-                        <p>Нет задач в этой категории</p>
-                    )}
+                <div className="tasks-grid">
+                    {renderTaskColumn('TODO', 'Запланировано')}
+                    {renderTaskColumn('IN_PROCESS', 'В работе')}
+                    {renderTaskColumn('DONE', 'Завершено')}
+                    {renderTaskColumn('TIME_IS_OVER', 'Время вышло')}
                 </div>
 
-                <div className="task-column-container">
-                    <h3>В работе ({tasksByStatus['IN_PROCESS'].length})</h3>
-                    {tasksByStatus['IN_PROCESS'].length > 0 ? (
-                        tasksByStatus['IN_PROCESS'].map((task) => (
-                            <div key={task.id} className="task-card-container">
-                                <TaskList tasks={[task]} pid={[projectId]} />
-                            </div>
-                        ))
-                    ) : (
-                        <p>Нет задач в этой категории</p>
-                    )}
-                </div>
-
-                <div className="task-column-container">
-                    <h3>Завершено ({tasksByStatus['DONE'].length})</h3>
-                    {tasksByStatus['DONE'].length > 0 ? (
-                        tasksByStatus['DONE'].map((task) => (
-                            <div key={task.id} className="task-card-container">
-                                <TaskList tasks={[task]} pid={[projectId]} />
-                            </div>
-                        ))
-                    ) : (
-                        <p>Нет задач в этой категории</p>
-                    )}
-                </div>
-
-                <div className="task-column-container">
-                    <h3>Время вышло ({tasksByStatus['TIME_IS_OVER'].length})</h3>
-                    {tasksByStatus['TIME_IS_OVER'].length > 0 ? (
-                        tasksByStatus['TIME_IS_OVER'].map((task) => (
-                            <div key={task.id} className="task-card-container">
-                                <TaskList tasks={[task]} pid={[projectId]} />
-                            </div>
-                        ))
-                    ) : (
-                        <p>Нет задач в этой категории</p>
-                    )}
-                </div>
+                <CreateTask projectId={projectId} />
             </div>
-
-            <CreateTask projectId={projectId} />
-        </div>
         </div>
     );
 }
