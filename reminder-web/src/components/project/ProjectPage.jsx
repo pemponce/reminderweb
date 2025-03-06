@@ -9,6 +9,7 @@ function ProjectPage() {
     const { projectId } = useParams();
     const [tasks, setTasks] = useState([]);
     const [project, setProject] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -49,11 +50,32 @@ function ProjectPage() {
         );
     };
 
+    // Открытие модального окна
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    // Закрытие модального окна
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="app-container">
             <div className="project-page-container">
                 <h1>Проект: {project}</h1>
                 <h2>Задачи</h2>
+                <button onClick={openModal} className="header-button">Создать задачу</button>
+
+                {/* Модальное окно с формой создания задачи */}
+                {isModalOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <button onClick={closeModal} className="close-modal-button">X</button>
+                            <CreateTask projectId={projectId} />
+                        </div>
+                    </div>
+                )}
 
                 <div className="tasks-grid">
                     {renderTaskColumn('TODO', 'Запланировано')}
@@ -62,7 +84,8 @@ function ProjectPage() {
                     {renderTaskColumn('TIME_IS_OVER', 'Время вышло')}
                 </div>
 
-                <CreateTask projectId={projectId} />
+                {/* Кнопка для открытия модального окна */}
+
             </div>
         </div>
     );

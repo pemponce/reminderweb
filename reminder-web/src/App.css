@@ -1,6 +1,12 @@
+/* Устанавливаем высоту для html и body */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* Общие стили */
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   background-color: #1e1e1e;
   color: #ffffff;
@@ -10,10 +16,10 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background-color: var(--background-color);
   color: var(--text-color);
-  overflow-y: auto; /* Добавьте эту строку для прокрутки */
+  height: 100%; /* Задаем высоту 100% */
+  overflow-y: auto; /* Добавляем прокрутку */
 }
 
 /* Светлая тема */
@@ -36,6 +42,7 @@ body {
 }
 
 .main-wrapper {
+  height: 100%;
   display: flex;
   flex: 1;
   margin-top: 60px; /* Убедитесь, что отступ соответствует высоте хедера */
@@ -153,6 +160,8 @@ body {
   margin-top: 20px;
   flex-wrap: wrap; /* Для адаптивного размещения колонок */
   overflow-y: auto;
+  scrollbar-width: none; /* Отключает отображение скроллбара */
+
   max-height: 600px; /* Ограничение по высоте для прокрутки */
 }
 
@@ -239,4 +248,43 @@ body {
     align-items: flex-start;
     padding: 10px;
   }
+}
+
+/* Стили для модального окна */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: #2d2d2d;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+}
+
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px 10px;
+}
+
+.close-modal-button:hover {
+  background-color: #cc0000;
 }
