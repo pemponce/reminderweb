@@ -58,6 +58,7 @@ body {
 .content-wrapper {
   flex: 1;
   padding: 20px;
+  height: 90vh;
   overflow-y: auto; /* Добавьте прокрутку для контента */
 }
 
@@ -162,16 +163,50 @@ body {
   border-radius: 12px;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px; /* Ограничиваем максимальную ширину модального окна */
+  width: 90%; /* Ширина модального окна */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 80vh; /* Ограничиваем максимальную высоту модального окна */
+  overflow-y: auto; /* Добавляем прокрутку, если содержимое слишком большое */
+}
+
+.task-list-content-text {
+  word-wrap: break-word; /* Перенос слов, если они не помещаются */
+  overflow-wrap: break-word; /* Альтернатива word-wrap для лучшей поддержки */
+  white-space: pre-wrap; /* Сохраняет пробелы и переносы строк, но переносит текст */
+  max-width: 100%; /* Ограничиваем ширину текста */
+  max-height: 200px; /* Ограничиваем высоту блока с описанием */
+  overflow-y: auto; /* Добавляем прокрутку, если текст слишком длинный */
+  padding-right: 10px; /* Добавляем отступ для полосы прокрутки */
+}
+
 .tasks-grid {
   display: flex;
   justify-content: space-evenly;
   gap: 20px;
   margin-top: 20px;
-  flex-wrap: wrap; /* Для адаптивного размещения колонок */
+  flex-wrap: wrap;
   overflow-y: auto;
-  scrollbar-width: none; /* Отключает отображение скроллбара */
+  scrollbar-width: none;
 
-  max-height: 600px; /* Ограничение по высоте для прокрутки */
+  max-height: 650px;
 }
 
 .task-column-container {
