@@ -139,6 +139,15 @@ body {
   cursor: pointer;
   border-radius: 8px;
 }
+.sidebar-button {
+  background-color: #555;
+  border: none;
+  color: white;
+  margin: 10px auto;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+}
 
 .header-button:hover {
   background-color: #777;

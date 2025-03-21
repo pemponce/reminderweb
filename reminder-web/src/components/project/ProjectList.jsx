@@ -26,7 +26,7 @@ function ProjectList({ onLogout }) {
             <ul className="project-list">
                 {projects.map((project) => (
                     <li key={project.id} className="project-item">
-                        <Link to={`/project/${project.id}`} className="project-link">{project.projectName}</Link>
+                        <Link to={`/project/${project.id}`} className="nav-link-text">{project.projectName}</Link>
                     </li>
                 ))}
             </ul>

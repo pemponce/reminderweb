@@ -32,6 +32,7 @@ function TaskList({ tasks, pid }) {
                         <h4>{task.title || "Без названия"}</h4>
                         <p>Описание: {task.content || "Нет описания"}</p>
                         <p>Статус: {task.status || "Не указан"}</p>
+                        <p>Дедлайн: {task.deadline || "Не указан"}</p>
                         <p>Теги:
                             {tags[task.id] ? tags[task.id].map((tag) => (
                                 <span

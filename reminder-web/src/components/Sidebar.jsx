@@ -51,7 +51,9 @@ export default function TaskBoard() {
                             />
                         ))}
                     </nav>
-                    <Link to="/project/create">Создать проект</Link>
+                    <button className="sidebar-button">
+                        <Link to="/project/create" className="nav-link-text" >Создать проект</Link>
+                    </button>
                 </div>
             </div>
         </div>
