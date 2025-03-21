@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getUserProjects } from '../../Api/ReminderApi';
+import React, {useState, useEffect} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {getUserProjects} from '../../Api/ReminderApi';
+import {Plus} from "lucide-react";
 
-function ProjectList({ onLogout }) {
+function ProjectList({onLogout}) {
     const [projects, setProjects] = useState([]);
     const navigate = useNavigate();
 
@@ -21,8 +22,11 @@ function ProjectList({ onLogout }) {
     return (
         <div className="project-container">
             <h1 className="page-title">Мои проекты</h1>
-            <button onClick={onLogout} className="button logout">Выйти</button>
-            <button onClick={() => navigate('/project/create')} className="button create">Создать проект</button>
+            <Link to="/project/create" className="nav-link-text">
+                <button className="sidebar-button">
+                    <Plus size={15}/>
+                </button>
+            </Link>
             <ul className="project-list">
                 {projects.map((project) => (
                     <li key={project.id} className="project-item">

@@ -26,6 +26,7 @@ function App() {
     const handleLogin = async (username, password) => {
         try {
             const response = await login(username, password);
+            window.location.reload();
             localStorage.setItem('token', response.token);
             setIsAuthenticated(true);
         } catch (error) {
@@ -34,6 +35,7 @@ function App() {
     };
 
     const handleLogout = () => {
+        window.location.reload();
         localStorage.removeItem('token');
         setIsAuthenticated(false);
     };

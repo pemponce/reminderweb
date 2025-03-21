@@ -58,6 +58,7 @@ function CreateProject() {
             const response = await createProject(projectName, userId, tags);
             alert('Проект создан!');
             navigate('/projects');
+            window.location.reload();
         } catch (error) {
             alert('Ошибка создания проекта: ' + error.message);
         }

@@ -121,6 +121,61 @@ body {
   font-size: 24px;
 }
 
+/* Стили для контейнера авторизации */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh; /* Занимает всю высоту экрана */
+  background-color: #1e1e1e; /* Фон как в темной теме */
+  color: #ffffff; /* Цвет текста */
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Расстояние между элементами формы */
+  width: 100%;
+  max-width: 300px; /* Ограничиваем ширину формы */
+  padding: 20px;
+  background-color: #2d2d2d; /* Фон формы */
+  border-radius: 12px; /* Скругление углов */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень */
+}
+
+.auth-input {
+  padding: 10px;
+  border: 1px solid #444; /* Граница поля ввода */
+  border-radius: 8px; /* Скругление углов */
+  background-color: #3d3d3d; /* Фон поля ввода */
+  color: #ffffff; /* Цвет текста */
+  font-size: 14px;
+  outline: none; /* Убираем обводку при фокусе */
+}
+
+.auth-input::placeholder {
+  color: #aaaaaa; /* Цвет плейсхолдера */
+}
+
+.auth-input:focus {
+  border-color: #007bff; /* Цвет границы при фокусе */
+}
+
+.auth-button {
+  padding: 10px;
+  background-color: #007bff; /* Цвет кнопки */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Плавное изменение цвета */
+}
+
+.auth-button:hover {
+  background-color: #0056b3; /* Цвет кнопки при наведении */
+}
+
 .header-auth-links {
   display: flex;
   align-items: center;
